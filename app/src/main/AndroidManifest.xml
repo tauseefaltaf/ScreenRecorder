@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.app.kk.screenrecorder">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".SplashScreen"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SettingsActivity"
+            android:parentActivityName=".Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/settings" />
+        <activity
+            android:name=".Activity.MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="Recorder.RecorderService"
+            android:exported="false" />
+        <service
+            android:name="Recorder.FloatingControlService"
+            android:exported="false" />
+
+        <activity
+            android:name=".Activity.RecordingActivity"
+            android:parentActivityName=".Activity.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ControlsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/settings" />
+        <activity
+            android:name=".Activity.QualityActivity"
+            android:parentActivityName=".Activity.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/settings" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <service android:name=".ShakeSensor.ShakeService" />
+        <service android:name=".Screen.ScreenService" />
+        <service
+            android:name=".ScreenOnOffBackgroundService"
+            android:enabled="true" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/app_id" />
+    </application>
+
+</manifest>
