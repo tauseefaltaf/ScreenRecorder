@@ -60,10 +60,11 @@ public class SharedPref {
         editor.commit();
     }
 
+
     public int loadView() {
-        int value = view.getInt("layout", 1);
-        return value;
-    }
+      int value = view.getInt("layout", 1);
+      return value;
+   }
 
     /**
      * Screen State

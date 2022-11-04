@@ -408,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(mChannel);
         }
         @SuppressLint("WrongConstant") NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channelId)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.about_img)
                 .setContentTitle("Screen Recorder")
                 .setContentText("Recoding")
                 .setWhen(System.currentTimeMillis())
@@ -623,11 +623,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             menu.findItem(R.id.Change).setIcon(AnimatedVectorDrawableCompat.create(MainActivity.this, R.drawable.avd_list_to_grid));
         }
-        if (adapter1.getItemCount() == 0) {
-            menu.findItem(R.id.Change).setVisible(false);
-        } else {
-            menu.findItem(R.id.Change).setVisible(true);
-        }
+//        if (adapter1.getItemCount() == 0) {
+//            menu.findItem(R.id.Change).setVisible(false);
+//        } else {
+//            menu.findItem(R.id.Change).setVisible(true);
+//        }
         return super.onCreateOptionsMenu(menu);
     }
 

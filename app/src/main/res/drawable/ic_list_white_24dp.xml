@@ -8,7 +8,7 @@
         android:name="list_dot"
         android:pivotX="3">
         <path
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="m3,13 l2,0 0,-2 -2,0z" />
     </group>
 
@@ -16,7 +16,7 @@
         android:name="list_line"
         android:pivotX="21">
         <path
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="m7,13 l14,0 0,-2 -14,0z" />
     </group>
 
@@ -29,14 +29,14 @@
         android:translateX="-1"
         android:translateY="3">
         <path
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M4,4h7v1.5h-7z" />
     </group>
     <group android:name="grid_1_2">
         <path
             android:name="path_grid_1_2"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M9.5,4h1.5v7h-1.5z" />
     </group>
     <group
@@ -46,7 +46,7 @@
         <path
             android:name="path_grid_1_3"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M4,9.5h7v1.5h-7z" />
     </group>
     <group
@@ -56,7 +56,7 @@
         <path
             android:name="path_grid_1_4"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M4,4h1.5v7h-1.5z" />
     </group>
 
@@ -69,7 +69,7 @@
         android:translateX="1"
         android:translateY="3">
         <path
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M13,4h7v1.5h-7z" />
     </group>
     <group
@@ -79,7 +79,7 @@
         <path
             android:name="path_grid_2_2"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M18.5,4h1.5v7h-1.5z" />
     </group>
     <group
@@ -89,14 +89,14 @@
         <path
             android:name="path_grid_2_3"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M13,9.5h7v1.5h-7z" />
     </group>
     <group android:name="grid_2_4">
         <path
             android:name="path_grid_2_4"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M13,4h1.5v7h-1.5z" />
     </group>
 
@@ -107,7 +107,7 @@
         <path
             android:name="path_grid_3_1"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M13,13h7v1.5h-7z" />
     </group>
     <group
@@ -117,7 +117,7 @@
         <path
             android:name="path_grid_3_2"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M18.5,13h1.5v7h-1.5z" />
     </group>
     <group
@@ -129,14 +129,14 @@
         android:translateX="1"
         android:translateY="-3">
         <path
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M13,18.5h7v1.5h-7z" />
     </group>
     <group android:name="grid_3_4">
         <path
             android:name="path_grid_3_4"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M13,13h1.5v7h-1.5z" />
     </group>
 
@@ -147,14 +147,14 @@
         <path
             android:name="path_grid_4_1"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M4,13h7v1.5h-7z" />
     </group>
     <group android:name="grid_4_2">
         <path
             android:name="path_grid_4_2"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M9.5,13h1.5v7h-1.5z" />
     </group>
     <group
@@ -166,7 +166,7 @@
         android:translateX="-1"
         android:translateY="-3">
         <path
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M4,18.5h7v1.5h-7z" />
     </group>
     <group
@@ -176,7 +176,7 @@
         <path
             android:name="path_grid_4_4"
             android:fillAlpha="0"
-            android:fillColor="#7C7C7C"
+            android:fillColor="#FFAA00"
             android:pathData="M4,13h1.5v7h-1.5z" />
     </group>
 

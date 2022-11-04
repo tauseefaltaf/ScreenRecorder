@@ -27,8 +27,19 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".SplashScreen"
+            android:name=".OnboardingScreenActivity"
             android:exported="false" />
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".Activity.SettingsActivity"
             android:parentActivityName=".Activity.MainActivity"
@@ -36,12 +47,15 @@
             android:theme="@style/settings" />
         <activity
             android:name=".Activity.MainActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:screenOrientation="portrait"
+            android:exported="true">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.RecordingActivity"
+            android:screenOrientation="portrait"
+            android:exported="false">
+
         </activity>
 
         <service
@@ -51,10 +65,10 @@
             android:name="Recorder.FloatingControlService"
             android:exported="false" />
 
-        <activity
-            android:name=".Activity.RecordingActivity"
-            android:parentActivityName=".Activity.SettingsActivity"
-            android:screenOrientation="portrait" />
+<!--        <activity-->
+<!--            android:name="."-->
+<!--            android:parentActivityName=".Activity.SettingsActivity"-->
+<!--            android:screenOrientation="portrait" />-->
         <activity
             android:name=".Activity.ControlsActivity"
             android:screenOrientation="portrait"
@@ -84,6 +98,9 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id" />
+        <meta-data
+            android:name="applovin.sdk.key"
+            android:value="k6M5NTnJGpwkPtSKZe-eZAkAlOEfcw7nB1B-ayas5WK8Rl9Xprw89ufSwtGKOvMBVN-BGKx2za5dAW79ARe77H" />
     </application>
 
 </manifest>

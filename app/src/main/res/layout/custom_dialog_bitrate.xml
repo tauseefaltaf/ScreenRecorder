@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Cancel"
-                    android:textColor="@color/btnColor"
+                    android:textColor="@color/yellow"
                     android:textSize="15dp" />
 
                 <Button
@@ -180,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Apply"
-                    android:textColor="@color/btnColor"
+                    android:textColor="@color/yellow"
                     android:textSize="15dp" />
 
 

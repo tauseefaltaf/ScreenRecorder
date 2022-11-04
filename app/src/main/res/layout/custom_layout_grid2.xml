@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingLeft="5dp"
+    android:paddingLeft="3dp"
+    android:gravity="center"
     android:paddingTop="5dp"
     android:paddingRight="5dp">
 
@@ -12,9 +13,10 @@
         android:id="@+id/cardView"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:elevation="8dp"
-        card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="4dp"
+        android:elevation="25dp"
+        card_view:cardCornerRadius="15dp"
+        card_view:cardElevation="6dp"
+        android:layout_marginHorizontal="3dp"
         card_view:cardUseCompatPadding="true"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toTopOf="parent">
@@ -39,12 +41,14 @@
 
             <TextView
                 android:id="@+id/vidTitle"
-                android:layout_width="match_parent"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:maxLines="1"
+               android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="5dp"
                 android:text="Title"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16dp"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@id/vidImage" />
@@ -54,8 +58,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
+                android:maxLines="1"
                 android:text="Duration : 00:00:02"
-                android:textColor="@color/textColor_trans"
+                android:textColor="@color/dal_black"
                 android:textSize="16dp"
                 card_view:layout_constraintStart_toStartOf="@+id/vidTitle"
                 card_view:layout_constraintTop_toBottomOf="@id/vidTitle" />
@@ -66,18 +71,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:text="Size : 100MB"
-                android:textColor="@color/textColor_trans"
+                android:textColor="@color/dal_black"
                 android:textSize="16dp"
+                android:maxLines="1"
                 card_view:layout_constraintStart_toStartOf="@+id/vidDuration"
                 card_view:layout_constraintTop_toBottomOf="@id/vidDuration" />
 
             <ImageView
                 android:id="@+id/itemMenu"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_more_vert"
+                android:src="@drawable/dotsss"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
@@ -85,4 +91,4 @@
 
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

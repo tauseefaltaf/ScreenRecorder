@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color1"
+    android:background="@color/yellow"
     android:layout_gravity="center"
     android:orientation="vertical"
     android:gravity="center"
@@ -31,6 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        app:SpinKit_Color="@color/white" />
+        app:SpinKit_Color="@color/black" />
 
 </LinearLayout>

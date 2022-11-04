@@ -104,9 +104,9 @@
 
             <ImageView
                 android:id="@+id/itemMenu"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_more_vert" />
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/menu" />
 
         </LinearLayout>
 
