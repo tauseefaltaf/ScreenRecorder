@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Screen Recorder</string>
+    <string name="app_name">Screen Recorder-Video Recorder</string>
 
     <!--Admob Ads Id Setup-->
     <string name="app_id">ca-app-pub-7593602752326571~9741880691</string>

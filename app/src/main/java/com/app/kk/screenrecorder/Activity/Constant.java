@@ -5,7 +5,7 @@ public class Constant {
     public static String MREC_ADD_KEY="3b220f9810c33311";
     public static String Package_Name = "com.humblyapps.compassdirection.qiblafinder.kaaba.direction";
     public static String More_Apps_Link = "https://play.google.com/store/apps/dev?id=8637869990393747803";
-    public static String Rate_us_Link = "https://play.google.com/store/apps/details?id=com.humblyapps.compassdirection.qiblafinder.kaaba.direction";
+        public static String Rate_us_Link = "https://play.google.com/store/apps/details?id=com.digitalappsacademy.screenrecoder.videorecorder.video.editor";
     public static String Policy_Link = "https://humblyapps.blogspot.com/p/humbly-apps-privacy-policy.html";
     public static String License_Key = "LicenseKeyForIn-App";
     public static String Admob_App_ID = "Admob(AppID)";

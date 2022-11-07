@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -9,7 +9,7 @@
         android:id="@+id/fav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:clickable="true"
         android:elevation="2dp"
         android:focusable="true"
@@ -19,8 +19,10 @@
         app:backgroundTint="@color/yellow"
         app:elevation="3dp"
         app:fabSize="auto"
-        app:layout_anchorGravity="bottom|right"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+
         app:rippleColor="@android:color/transparent"
         app:useCompatPadding="true" />
 
-</LinearLayout>
+</RelativeLayout>

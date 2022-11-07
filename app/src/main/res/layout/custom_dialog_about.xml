@@ -31,51 +31,31 @@
                 android:padding="20dp">
 
                 <TextView
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="@string/app_name"
+                    android:maxLines="1"
                     android:textColor="@color/txtColor"
-                    android:textSize="22sp" />
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="-15dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Current Version :  "
-                        android:textColor="@color/textColor"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/app_ver"
-                        android:textColor="@color/textColor"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:lineHeight="24sp"-->
-<!--                    android:text="This app is Developed by Kamal Kishor Meena."-->
-<!--                    android:textColor="@color/textColor"-->
-<!--                    android:textSize="17sp" />-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:layout_marginTop="-15dp"-->
+<!--                    android:orientation="horizontal">-->
+
+
+<!--                </LinearLayout>-->
+
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="24dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:lineHeight="24sp"
@@ -103,7 +83,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:elevation="2dp"
         android:src="@drawable/about_img" />
 
