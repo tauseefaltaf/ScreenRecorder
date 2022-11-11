@@ -1,15 +1,19 @@
 package com.app.kk.screenrecorder.Activity;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -18,13 +22,22 @@ import android.widget.Toast;
 
 import com.app.kk.screenrecorder.R;
 import com.app.kk.screenrecorder.SharedPref;
+import com.applovin.mediation.MaxAd;
+import com.applovin.mediation.MaxAdFormat;
+import com.applovin.mediation.MaxAdViewAdListener;
+import com.applovin.mediation.MaxError;
+import com.applovin.mediation.ads.MaxAdView;
+import com.applovin.sdk.AppLovinSdk;
+import com.applovin.sdk.AppLovinSdkConfiguration;
+import com.applovin.sdk.AppLovinSdkUtils;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-public class QualityActivity extends AppCompatActivity {
+public class QualityActivity extends AppCompatActivity implements MaxAdViewAdListener {
 
     private Toolbar toolbar;
+    private MaxAdView MRECAdview;
     final String KEY_SAVED_RADIO_BUTTON_INDEX = "SAVED_RADIO_BUTTON_INDEX";
     LinearLayout frate, bitRate;
     //    int nbits = nMbps * 1000000;
@@ -53,6 +66,14 @@ public class QualityActivity extends AppCompatActivity {
         frate = findViewById(R.id.fRate);
         bitRate = findViewById(R.id.bitRate);
         desc2 = findViewById(R.id.desc2);
+        createMrecAd();
+        AppLovinSdk.getInstance(this).setMediationProvider("max");
+        AppLovinSdk.initializeSdk(this, new AppLovinSdk.SdkInitializationListener() {
+            @Override
+            public void onSdkInitialized(final AppLovinSdkConfiguration configuration) {
+
+            }
+        });
 
         frate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,4 +236,72 @@ public class QualityActivity extends AppCompatActivity {
         super.finish();
         overridePendingTransition(0, 0);
     }
+    private void createMrecAd() {
+        MRECAdview = new MaxAdView(getResources().getString(R.string.mrec), MaxAdFormat.MREC, this);
+
+        MRECAdview.setListener(this);
+        int width = AppLovinSdkUtils.dpToPx(this, 300);
+        int height = AppLovinSdkUtils.dpToPx(this, 250);
+        MRECAdview.setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
+
+        MRECAdview.setBackgroundColor(Color.WHITE);
+
+        FrameLayout layout = findViewById(R.id.mrec);
+        layout.addView(MRECAdview);
+        MRECAdview.loadAd();
+        MRECAdview.startAutoRefresh();
+
+    }
+
+    @Override
+    public void onAdExpanded(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdCollapsed(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdLoaded(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdDisplayed(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdHidden(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdClicked(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdLoadFailed(String adUnitId, MaxError error) {
+
+    }
+
+    @Override
+    public void onAdDisplayFailed(MaxAd ad, MaxError error) {
+
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        MyApplication.activityResumed();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        MyApplication.activityPaused();
+//    }
 }

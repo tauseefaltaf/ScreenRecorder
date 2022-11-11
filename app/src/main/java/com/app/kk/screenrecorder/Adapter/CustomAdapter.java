@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -33,13 +36,16 @@ import android.widget.Toast;
 import com.app.kk.screenrecorder.Dialog.DeleteDialog;
 import com.app.kk.screenrecorder.Model.Item;
 import com.app.kk.screenrecorder.R;
+import com.applovin.mediation.MaxAdFormat;
+import com.applovin.mediation.ads.MaxAdView;
+import com.applovin.sdk.AppLovinSdkUtils;
 
 import java.io.File;
 import java.util.List;
 
 import static com.app.kk.screenrecorder.Activity.MainActivity.listString;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Viewholder> {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Viewholder>  {
 
     List<Item> arraylist;
     Context context;
@@ -50,6 +56,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Viewholder
 
     private static final int VIEW_TYPE_SMALL = 1;
     private static final int VIEW_TYPE_BIG = 2;
+    
 
     private GridLayoutManager mLayoutManager;
 
@@ -93,6 +100,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Viewholder
         String title = arraylist.get(position).getVidTitle();
         String duration = arraylist.get(position).getVidDuration();
         String size = arraylist.get(position).getVidSize();
+
 
         int color = R.color.select;
         if (mSelectedItemsIds.get(position)) viewholder.lc1
@@ -169,6 +177,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Viewholder
         private ImageView vidImage;
         private LinearLayout lc1;
 
+
         public Viewholder(@NonNull View itemView, int i) {
             super(itemView);
             lc1 = itemView.findViewById(R.id.lc1);
@@ -179,6 +188,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Viewholder
             menuBtn = (ImageView) itemView.findViewById(R.id.itemMenu);
 
         }
+
 
         public void setData(String titletext, String time, String siz) {
             title.setText(titletext);

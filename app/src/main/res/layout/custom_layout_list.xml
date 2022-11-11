@@ -111,5 +111,12 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+    <FrameLayout
+        android:layout_weight="70"
+        android:id="@+id/mrec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear7"
+        />
 
 </LinearLayout>

@@ -2,17 +2,21 @@ package com.app.kk.screenrecorder.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -20,10 +24,18 @@ import android.widget.Toast;
 
 import com.app.kk.screenrecorder.R;
 import com.app.kk.screenrecorder.SharedPref;
+import com.applovin.mediation.MaxAd;
+import com.applovin.mediation.MaxAdFormat;
+import com.applovin.mediation.MaxAdViewAdListener;
+import com.applovin.mediation.MaxError;
+import com.applovin.mediation.ads.MaxAdView;
+import com.applovin.sdk.AppLovinSdk;
+import com.applovin.sdk.AppLovinSdkConfiguration;
+import com.applovin.sdk.AppLovinSdkUtils;
 
 import java.io.File;
 
-public class RecordingActivity extends AppCompatActivity {
+public class RecordingActivity extends AppCompatActivity implements MaxAdViewAdListener {
 
     private Toolbar toolbar;
     LinearLayout folder;
@@ -35,6 +47,7 @@ public class RecordingActivity extends AppCompatActivity {
     SeekBar seekBar;
     SharedPref sharedPref;
     int currentProgress;
+    private MaxAdView MRECAdview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +69,14 @@ public class RecordingActivity extends AppCompatActivity {
         count = findViewById(R.id.count);
         desc3 = findViewById(R.id.desc3);
         desc1 = findViewById(R.id.desc1);
+        createMrecAd();
+        AppLovinSdk.getInstance(this).setMediationProvider("max");
+        AppLovinSdk.initializeSdk(this, new AppLovinSdk.SdkInitializationListener() {
+            @Override
+            public void onSdkInitialized(final AppLovinSdkConfiguration configuration) {
+
+            }
+        });
 
         file = new File(Environment.getExternalStorageDirectory() + "/Screen Recording/");
         String add = file.getAbsolutePath();
@@ -198,4 +219,71 @@ public class RecordingActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        MyApplication.activityResumed();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        MyApplication.activityPaused();
+//    }
+private void createMrecAd() {
+    MRECAdview = new MaxAdView(getResources().getString(R.string.mrec), MaxAdFormat.MREC, this);
+
+    MRECAdview.setListener((MaxAdViewAdListener) this);
+    int width = AppLovinSdkUtils.dpToPx(this, 300);
+    int height = AppLovinSdkUtils.dpToPx(this, 250);
+    MRECAdview.setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
+
+    MRECAdview.setBackgroundColor(Color.WHITE);
+
+    FrameLayout layout = findViewById(R.id.mrec);
+    layout.addView(MRECAdview);
+    MRECAdview.loadAd();
+    MRECAdview.startAutoRefresh();
+
+}
+
+    @Override
+    public void onAdExpanded(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdCollapsed(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdLoaded(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdDisplayed(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdHidden(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdClicked(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdLoadFailed(String adUnitId, MaxError error) {
+
+    }
+
+    @Override
+    public void onAdDisplayFailed(MaxAd ad, MaxError error) {
+
+    }
 }

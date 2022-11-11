@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -18,7 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.app.kk.screenrecorder.Activity.Constant;
 import com.app.kk.screenrecorder.Activity.MainActivity;
+import com.app.kk.screenrecorder.Activity.MyApplication;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdFormat;
 import com.applovin.mediation.MaxAdViewAdListener;
@@ -28,7 +31,7 @@ import com.applovin.sdk.AppLovinSdk;
 import com.applovin.sdk.AppLovinSdkConfiguration;
 import com.applovin.sdk.AppLovinSdkUtils;
 
-public class OnboardingScreenActivity extends AppCompatActivity implements MaxAdViewAdListener {
+public class OnboardingScreenActivity extends AppCompatActivity{
     ImageView imageView;
     TextView heading, description;
     int currentPosition = 1;
@@ -112,9 +115,50 @@ public class OnboardingScreenActivity extends AppCompatActivity implements MaxAd
         });
     }
     private void createMrecAd() {
-        MRECAdview = new MaxAdView(getResources().getString(R.string.mrec), MaxAdFormat.MREC, this);
+        MRECAdview = new MaxAdView(Constant.MREC_ADD_KEY, MaxAdFormat.MREC, this);
+        MRECAdview.setListener(new MaxAdViewAdListener() {
+            @Override
+            public void onAdExpanded(MaxAd ad) {
 
-        MRECAdview.setListener(this);
+            }
+
+            @Override
+            public void onAdCollapsed(MaxAd ad) {
+
+            }
+
+            @Override
+            public void onAdLoaded(MaxAd ad) {
+                Log.d("onAdLoaded", "onAdLoaded: ");
+            }
+
+            @Override
+            public void onAdDisplayed(MaxAd ad) {
+                Log.d("onAdLoaded", "onAdDisplayed: ");
+            }
+
+            @Override
+            public void onAdHidden(MaxAd ad) {
+                Log.d("onAdLoaded", "onAdHidden: ");
+            }
+
+            @Override
+            public void onAdClicked(MaxAd ad) {
+                Log.d("onAdLoaded", "onAdClicked: ");
+            }
+
+            @Override
+            public void onAdLoadFailed(String adUnitId, MaxError error) {
+                Log.d("onAdLoaded", "onAdLoadFailed: ");
+            }
+
+            @Override
+            public void onAdDisplayFailed(MaxAd ad, MaxError error) {
+
+                Log.d("onAdLoaded", "onAdDisplayFailed: ");
+            }
+        });
+
         int width = AppLovinSdkUtils.dpToPx(this, 300);
         int height = AppLovinSdkUtils.dpToPx(this, 250);
         MRECAdview.setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
@@ -125,46 +169,11 @@ public class OnboardingScreenActivity extends AppCompatActivity implements MaxAd
         layout.addView(MRECAdview);
         MRECAdview.loadAd();
         MRECAdview.startAutoRefresh();
-
     }
 
     @Override
-    public void onAdExpanded(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdCollapsed(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdLoaded(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdDisplayed(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdHidden(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdClicked(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdLoadFailed(String adUnitId, MaxError error) {
-
-    }
-
-    @Override
-    public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-
+    public void onBackPressed() {
+        super.onBackPressed();
+        MyApplication.isFirstTime=true;
     }
 }

@@ -48,5 +48,5 @@ dependencies {
 
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'com.applovin:applovin-sdk:+'
-    implementation("androidx.lifecycle:lifecycle-process:2.2.0")
+    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
 }

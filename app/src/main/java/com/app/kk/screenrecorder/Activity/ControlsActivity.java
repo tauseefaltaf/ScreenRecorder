@@ -1,13 +1,17 @@
 package com.app.kk.screenrecorder.Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,20 +20,37 @@ import com.app.kk.screenrecorder.R;
 import com.app.kk.screenrecorder.ScreenOnOffBackgroundService;
 import com.app.kk.screenrecorder.ShakeSensor.ShakeService;
 import com.app.kk.screenrecorder.SharedPref;
+import com.applovin.mediation.MaxAd;
+import com.applovin.mediation.MaxAdFormat;
+import com.applovin.mediation.MaxAdViewAdListener;
+import com.applovin.mediation.MaxError;
+import com.applovin.mediation.ads.MaxAdView;
+import com.applovin.sdk.AppLovinSdk;
+import com.applovin.sdk.AppLovinSdkConfiguration;
+import com.applovin.sdk.AppLovinSdkUtils;
 
-public class ControlsActivity extends AppCompatActivity {
+public class ControlsActivity extends AppCompatActivity implements MaxAdViewAdListener {
 
     private Toolbar toolbar;
     public SwitchCompat s1, s2;
     LinearLayout shake, screen;
     SharedPref sharedPref;
     TextView s1Desc, s2Desc;
+    private MaxAdView MRECAdview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_controls);
+        createMrecAd();
+        AppLovinSdk.getInstance(this).setMediationProvider("max");
+        AppLovinSdk.initializeSdk(this, new AppLovinSdk.SdkInitializationListener() {
+            @Override
+            public void onSdkInitialized(final AppLovinSdkConfiguration configuration) {
+
+            }
+        });
 
         toolbar = findViewById(R.id.toolbar2);
         toolbar.setTitle("Settings");
@@ -129,5 +150,73 @@ public class ControlsActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(0, 0);
+    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        MyApplication.activityResumed();
+//
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        MyApplication.activityPaused();
+//    }
+private void createMrecAd() {
+    MRECAdview = new MaxAdView(getResources().getString(R.string.mrec), MaxAdFormat.MREC, this);
+
+    MRECAdview.setListener((MaxAdViewAdListener) this);
+    int width = AppLovinSdkUtils.dpToPx(this, 300);
+    int height = AppLovinSdkUtils.dpToPx(this, 250);
+    MRECAdview.setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
+
+    MRECAdview.setBackgroundColor(Color.WHITE);
+
+    FrameLayout layout = findViewById(R.id.mrec);
+    layout.addView(MRECAdview);
+    MRECAdview.loadAd();
+    MRECAdview.startAutoRefresh();
+
+}
+
+    @Override
+    public void onAdExpanded(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdCollapsed(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdLoaded(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdDisplayed(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdHidden(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdClicked(MaxAd ad) {
+
+    }
+
+    @Override
+    public void onAdLoadFailed(String adUnitId, MaxError error) {
+
+    }
+
+    @Override
+    public void onAdDisplayFailed(MaxAd ad, MaxError error) {
+
     }
 }

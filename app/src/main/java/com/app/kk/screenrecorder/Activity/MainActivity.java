@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Animatable;
 import android.hardware.Sensor;
@@ -16,6 +17,12 @@ import android.os.PowerManager;
 
 import androidx.annotation.RequiresApi;
 
+import com.applovin.mediation.MaxAd;
+import com.applovin.mediation.MaxAdFormat;
+import com.applovin.mediation.MaxAdViewAdListener;
+import com.applovin.mediation.MaxError;
+import com.applovin.mediation.ads.MaxAdView;
+import com.applovin.sdk.AppLovinSdkUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -46,12 +53,14 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -115,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int crp = 10;
     //    private RecyclerView recyclerView;
     private EmptyRecyclerView recyclerView;
+    private MaxAdView MRECAdview;
+    private FrameLayout layout;
 
     String string;
     List<Item> arraylist;
@@ -129,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     public Toolbar toolbar;
 
     //    LinearLayout emptyView;
-    ConstraintLayout emptyView;
+    LinearLayout emptyView;
 
 
     CustomAdapter adapter1;
@@ -183,8 +194,11 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         mReceiver = new ScreenReceiver();
         registerReceiver(mReceiver, filter);
-
         setContentView(R.layout.activity_main);
+
+
+        createMrecAd();
+
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -733,12 +747,15 @@ public class MainActivity extends AppCompatActivity {
         // Add the following line to unregister the Sensor Manager onPause
 //        mSensorManager.unregisterListener(mShakeDetector);
         super.onPause();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onResume() {
         super.onResume();
+
+
         // only when shake turns on
         if (!ScreenReceiver.wasScreenOn) {
             // this is when onResume() is called due to a shake state change
@@ -765,6 +782,8 @@ public class MainActivity extends AppCompatActivity {
         }
         mSensorManager.unregisterListener(mShakeDetector);
     }
+
+
 
     private class MediaProjectionCallback extends MediaProjection.Callback {
         @Override
@@ -886,5 +905,66 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mActionMode.finish();//Finish action mode after use
+    }
+    private void createMrecAd() {
+        MRECAdview = new MaxAdView(Constant.MREC_ADD_KEY, MaxAdFormat.MREC, this);
+        MRECAdview.setListener(new MaxAdViewAdListener() {
+            @Override
+            public void onAdExpanded(MaxAd ad) {
+
+            }
+
+            @Override
+            public void onAdCollapsed(MaxAd ad) {
+
+            }
+
+            @Override
+            public void onAdLoaded(MaxAd ad) {
+                Log.d("onAdLoaded", "onAdLoaded: ");
+            }
+
+            @Override
+            public void onAdDisplayed(MaxAd ad) {
+                Log.d("onAdLoaded", "onAdDisplayed: ");
+            }
+
+            @Override
+            public void onAdHidden(MaxAd ad) {
+                Log.d("onAdLoaded", "onAdHidden: ");
+            }
+
+            @Override
+            public void onAdClicked(MaxAd ad) {
+                Log.d("onAdLoaded", "onAdClicked: ");
+            }
+
+            @Override
+            public void onAdLoadFailed(String adUnitId, MaxError error) {
+                Log.d("onAdLoaded", "onAdLoadFailed: ");
+            }
+
+            @Override
+            public void onAdDisplayFailed(MaxAd ad, MaxError error) {
+
+                Log.d("onAdLoaded", "onAdDisplayFailed: ");
+            }
+        });
+
+        int width = AppLovinSdkUtils.dpToPx(this, 300);
+        int height = AppLovinSdkUtils.dpToPx(this, 250);
+        MRECAdview.setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
+
+        MRECAdview.setBackgroundColor(Color.WHITE);
+
+        FrameLayout layout = findViewById(R.id.mrec);
+        layout.addView(MRECAdview);
+        MRECAdview.loadAd();
+        MRECAdview.startAutoRefresh();
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        MyApplication.isFirstTime=true;
     }
 }
