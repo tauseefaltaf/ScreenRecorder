@@ -23,7 +23,7 @@
         android:id="@+id/img"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/recorder"/>
+        android:src="@drawable/logo"/>
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/spin_kit"
         style="@style/SpinKitView.FadingCircle"

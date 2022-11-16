@@ -85,6 +85,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:elevation="2dp"
-        android:src="@drawable/about_img" />
+        android:src="@drawable/logo" />
 
 </RelativeLayout>

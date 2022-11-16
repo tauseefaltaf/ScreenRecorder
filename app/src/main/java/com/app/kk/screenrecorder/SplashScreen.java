@@ -1,5 +1,7 @@
 package com.app.kk.screenrecorder;
 
+import static com.app.kk.screenrecorder.Activity.MyApplication.showAdIfReady;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -34,7 +36,7 @@ public class SplashScreen extends AppCompatActivity {
     ImageView imageView;
     TextView text;
     Animation topAnim, bottonAnim;
-//    private ExampleAppOpenManager appOpenManager;
+
     private SpinKitView progressBar;
 
 
@@ -67,76 +69,19 @@ public class SplashScreen extends AppCompatActivity {
         text.setAnimation(bottonAnim);
         progressBar = findViewById(R.id.spin_kit);
 
-//
-//        AppLovinSdk.initializeSdk(this, configuration ->
-//                appOpenManager = new ExampleAppOpenManager(SplashScreen.this));
-//
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                showAdIfReady();
                 startActivity(new Intent(SplashScreen.this, OnboardingScreenActivity.class));
                 finish();
             }
-        }, 2000);
+        }, 3000);
 
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.spin_kit);
         Sprite fadingCircle = new FadingCircle();
         progressBar.setIndeterminateDrawable(fadingCircle);
 
     }
-//    public class ExampleAppOpenManager implements MaxAdListener {
-//        private final MaxAppOpenAd appOpenAd;
-//        private final Context context;
-//
-//        public ExampleAppOpenManager(final Context context) {
-//            this.context = context;
-//            appOpenAd = new MaxAppOpenAd(Constant.APP_OPEN_KEY, context);
-//            appOpenAd.setListener(this);
-//            appOpenAd.loadAd();
-//        }
-//
-//        private void showAdIfReady() {
-//            if (appOpenAd == null || !AppLovinSdk.getInstance(context).isInitialized()) return;
-//            if (appOpenAd.isReady()) {
-//                progressBar.setVisibility(View.GONE);
-//
-//                appOpenAd.showAd();
-//            }
-//        }
-//
-//
-//        @Override
-//        public void onAdLoaded(final MaxAd ad) {
-//            Log.d("testAds", "ad loaded");
-//            showAdIfReady();
-//        }
-//
-//        @Override
-//        public void onAdLoadFailed(final String adUnitId, final MaxError error) {
-//            Log.d("testAds", "ad load fail");
-//        }
-//
-//        @Override
-//        public void onAdDisplayed(final MaxAd ad) {
-//            Log.d("testAds", "ad display");
-//        }
-//
-//        @Override
-//        public void onAdClicked(final MaxAd ad) {
-//            Log.d("testAds", "ad clicked");
-//        }
-//
-//        @Override
-//        public void onAdHidden(final MaxAd ad) {
-////            appOpenAd.loadAd();
-//            Log.d("testAds", "ad hiddedn");
-//            startActivity(new Intent(SplashScreen.this, OnboardingScreenActivity.class));
-//            finish();
-//        }
-//
-//        @Override
-//        public void onAdDisplayFailed(final MaxAd ad, final MaxError error) {
-//            appOpenAd.loadAd();
-//        }
-//    }
+
 }

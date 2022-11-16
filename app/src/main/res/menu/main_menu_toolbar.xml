@@ -14,12 +14,24 @@
         android:icon="@drawable/ic_share_black_24dp"
         app:showAsAction="never"
         android:title="share" />
+<!--    <item-->
+<!--        android:id="@+id/about"-->
+<!--        android:title="About"/>-->
     <item
-        android:id="@+id/about"
-        android:title="About"/>
+        android:id="@+id/Rate_us"
+        android:title="Rate us" />
+
+    <item
+        android:id="@+id/Privacy_Policy"
+        android:title="Privacy Policy" />
+    <item
+        android:id="@+id/AppInfo"
+        android:title="App Info" />
     <item
         android:id="@+id/settings"
         android:title="Settings"/>
+
+
 
 
 

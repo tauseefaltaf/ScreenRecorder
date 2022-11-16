@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.app.kk.screenrecorder">
+    package="com.app.kk.screenrecorder" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
@@ -21,25 +21,26 @@
         android:name=".Activity.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/recorder"
+        android:icon="@mipmap/ic_launcher_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/recorder"
+        android:roundIcon="@mipmap/ic_launcher_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning" >
+        <activity
+            android:name=".App_info"
+            android:exported="false" />
         <activity
             android:name=".OnboardingScreenActivity"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
-            android:exported="true">
-
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Activity.SettingsActivity"
@@ -48,28 +49,22 @@
             android:theme="@style/settings" />
         <activity
             android:name=".Activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.RecordingActivity"
-            android:screenOrientation="portrait"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="Recorder.RecorderService"
             android:exported="false" />
         <service
             android:name="Recorder.FloatingControlService"
-            android:exported="false" />
-
-<!--        <activity-->
-<!--            android:name="."-->
-<!--            android:parentActivityName=".Activity.SettingsActivity"-->
-<!--            android:screenOrientation="portrait" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name="." -->
+        <!-- android:parentActivityName=".Activity.SettingsActivity" -->
+        <!-- android:screenOrientation="portrait" /> -->
         <activity
             android:name=".Activity.ControlsActivity"
             android:screenOrientation="portrait"
@@ -84,7 +79,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />

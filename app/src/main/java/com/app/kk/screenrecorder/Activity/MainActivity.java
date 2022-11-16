@@ -17,6 +17,7 @@ import android.os.PowerManager;
 
 import androidx.annotation.RequiresApi;
 
+import com.app.kk.screenrecorder.App_info;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdFormat;
 import com.applovin.mediation.MaxAdViewAdListener;
@@ -422,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(mChannel);
         }
         @SuppressLint("WrongConstant") NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), channelId)
-                .setSmallIcon(R.drawable.about_img)
+                .setSmallIcon(R.drawable.logo)
                 .setContentTitle("Screen Recorder")
                 .setContentText("Recoding")
                 .setWhen(System.currentTimeMillis())
@@ -661,9 +662,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         switch (item.getItemId()) {
-            case R.id.about:
-                AboutDialog.aboutDialog(this);
-                return true;
+//            case R.id.about:
+//                AboutDialog.aboutDialog(this);
+//                return true;
 
             case R.id.Change:
                 if (!((Animatable) item.getIcon()).isRunning()) {
@@ -682,6 +683,22 @@ public class MainActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(MainActivity.this, SettingsActivity.class);
                 MainActivity.this.startActivity(myIntent);
                 return true;
+            case R.id.Rate_us:
+                Uri uri = Uri.parse(Constant.Rate_us_Link);
+                Intent i=new Intent(Intent.ACTION_VIEW,uri);
+                startActivity(i);
+                return true;
+            case R.id.Privacy_Policy:
+                Uri uri1 = Uri.parse(Constant.Policy_Link);
+                Intent a=new Intent(Intent.ACTION_VIEW,uri1);
+                startActivity(a);
+                return true;
+            case R.id.AppInfo:
+                startActivity(new Intent(MainActivity.this, App_info.class));
+                return true;
+
+
+
 
             default:
                 return super.onOptionsItemSelected(item);
