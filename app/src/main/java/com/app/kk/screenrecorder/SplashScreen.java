@@ -36,7 +36,7 @@ public class SplashScreen extends AppCompatActivity {
     ImageView imageView;
     TextView text;
     Animation topAnim, bottonAnim;
-
+    public static String PackageName;
     private SpinKitView progressBar;
 
 
@@ -45,6 +45,8 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        PackageName=getApplicationContext().getPackageName();
+        Log.d("tttttt", "onCreate: "+PackageName);
 
         final Handler handler = new Handler(Looper.getMainLooper());
         Window window = this.getWindow();

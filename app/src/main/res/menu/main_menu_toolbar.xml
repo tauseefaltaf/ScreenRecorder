@@ -30,6 +30,9 @@
     <item
         android:id="@+id/settings"
         android:title="Settings"/>
+    <item
+        android:id="@+id/More_Apps"
+        android:title="More Apps" />
 
 
 

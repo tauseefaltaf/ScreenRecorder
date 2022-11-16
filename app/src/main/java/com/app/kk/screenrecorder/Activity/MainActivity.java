@@ -18,6 +18,7 @@ import android.os.PowerManager;
 import androidx.annotation.RequiresApi;
 
 import com.app.kk.screenrecorder.App_info;
+import com.app.kk.screenrecorder.SplashScreen;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdFormat;
 import com.applovin.mediation.MaxAdViewAdListener;
@@ -684,7 +685,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(myIntent);
                 return true;
             case R.id.Rate_us:
-                Uri uri = Uri.parse(Constant.Rate_us_Link);
+                Uri uri = Uri.parse(Constant.Rate_us_Link+ SplashScreen.PackageName);
                 Intent i=new Intent(Intent.ACTION_VIEW,uri);
                 startActivity(i);
                 return true;
@@ -696,9 +697,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.AppInfo:
                 startActivity(new Intent(MainActivity.this, App_info.class));
                 return true;
-
-
-
+            case R.id.More_Apps:
+                Uri uri2 = Uri.parse(Constant.More_Apps_Link);
+                Intent b=new Intent(Intent.ACTION_VIEW,uri2);
+                startActivity(b);
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

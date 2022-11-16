@@ -67,7 +67,7 @@ public class App_info extends AppCompatActivity implements MaxAdViewAdListener {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 
-        window.setStatusBarColor(ContextCompat.getColor(App_info.this, R.color.yellow));
+        window.setStatusBarColor(ContextCompat.getColor(App_info.this, R.color.white));
 
 
     }
