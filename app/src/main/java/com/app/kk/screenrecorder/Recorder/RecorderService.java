@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.ServiceInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.display.DisplayManager;
@@ -357,6 +358,7 @@ public class RecorderService extends Service {
     //Start service as a foreground service. We dont want the service to be killed in case of low memory
     private void startNotificationForeGround(Notification notification, int ID) {
         startForeground(ID, notification);
+//        startForeground(ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION);
     }
 
     //Update existing notification with its ID and new Notification data

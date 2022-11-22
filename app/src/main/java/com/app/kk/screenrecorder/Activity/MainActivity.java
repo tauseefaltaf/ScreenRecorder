@@ -2,6 +2,8 @@ package com.app.kk.screenrecorder.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -12,12 +14,15 @@ import android.hardware.SensorManager;
 import android.media.CamcorderProfile;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.media.MediaScannerConnection;
 import android.os.Build;
+import android.os.Handler;
 import android.os.PowerManager;
 
 import androidx.annotation.RequiresApi;
 
 import com.app.kk.screenrecorder.App_info;
+import com.app.kk.screenrecorder.Recorder.RecorderService;
 import com.app.kk.screenrecorder.SplashScreen;
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdFormat;
@@ -31,6 +36,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.Manifest;
 import android.content.Context;
@@ -50,6 +56,8 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.view.ActionMode;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -74,8 +82,10 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import android.app.NotificationChannel;
@@ -101,14 +111,18 @@ import com.app.kk.screenrecorder.ShakeSensor.ShakeDetector;
 import com.app.kk.screenrecorder.SharedPref;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.hbisoft.hbrecorder.HBRecorder;
+import com.hbisoft.hbrecorder.HBRecorderCodecInfo;
+import com.hbisoft.hbrecorder.HBRecorderListener;
 
 import static android.app.Notification.GROUP_ALERT_SUMMARY;
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 import static com.app.kk.screenrecorder.Adapter.CustomAdapter.SPAN_COUNT_ONE;
 import static com.app.kk.screenrecorder.Adapter.CustomAdapter.SPAN_COUNT_TWO;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HBRecorderListener {
 
     public ActionMode mActionMode;
 
@@ -156,6 +170,16 @@ public class MainActivity extends AppCompatActivity {
     private MediaProjectionCallback mMediaProjectionCallback;
     private MediaRecorder mMediaRecorder;
 
+
+    private static final int SCREEN_RECORD_REQUEST_CODE = 777;
+    private static final int PERMISSION_REQ_ID_RECORD_AUDIO = 22;
+    private static final int PERMISSION_REQ_ID_WRITE_EXTERNAL_STORAGE = PERMISSION_REQ_ID_RECORD_AUDIO + 1;
+    private boolean hasPermissions = false;
+    private HBRecorder hbRecorder;
+    //Reference to checkboxes and radio buttons
+    boolean wasHDSelected = true;
+    boolean isAudioEnabled = true;
+
     static {
         sArray.append(Surface.ROTATION_0, 90);
         sArray.append(Surface.ROTATION_90, 0);
@@ -201,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
 
         createMrecAd();
 
+        initHBRecorder();
+
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -243,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (string1.equals("s")) {
+                    Log.d("screenRecDebug","ok");
                     checkPermission();
                 } else if (string1.equals("t")) {
                     notificationManager.cancel(1);
@@ -298,6 +325,57 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         implementRecyclerViewClickListeners();
+    }
+
+    private void initHBRecorder() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //Init HBRecorder
+            hbRecorder = new HBRecorder(this, this);
+
+            //When the user returns to the application, some UI changes might be necessary,
+            //check if recording is in progress and make changes accordingly
+            if (hbRecorder.isBusyRecording()) {
+//                startbtn.setText(R.string.stop_recording);
+            }
+        }
+
+        // Examples of how to use the HBRecorderCodecInfo class to get codec info
+        HBRecorderCodecInfo hbRecorderCodecInfo = new HBRecorderCodecInfo();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            int mWidth = hbRecorder.getDefaultWidth();
+            int mHeight = hbRecorder.getDefaultHeight();
+            String mMimeType = "video/avc";
+            int mFPS = 30;
+            if (hbRecorderCodecInfo.isMimeTypeSupported(mMimeType)) {
+                String defaultVideoEncoder = hbRecorderCodecInfo.getDefaultVideoEncoderName(mMimeType);
+                boolean isSizeAndFramerateSupported = hbRecorderCodecInfo.isSizeAndFramerateSupported(mWidth, mHeight, mFPS, mMimeType, ORIENTATION_PORTRAIT);
+                Log.e("EXAMPLE", "THIS IS AN EXAMPLE OF HOW TO USE THE (HBRecorderCodecInfo) TO GET CODEC INFO:");
+                Log.e("HBRecorderCodecInfo", "defaultVideoEncoder for (" + mMimeType + ") -> " + defaultVideoEncoder);
+                Log.e("HBRecorderCodecInfo", "MaxSupportedFrameRate -> " + hbRecorderCodecInfo.getMaxSupportedFrameRate(mWidth, mHeight, mMimeType));
+                Log.e("HBRecorderCodecInfo", "MaxSupportedBitrate -> " + hbRecorderCodecInfo.getMaxSupportedBitrate(mMimeType));
+                Log.e("HBRecorderCodecInfo", "isSizeAndFramerateSupported @ Width = " + mWidth + " Height = " + mHeight + " FPS = " + mFPS + " -> " + isSizeAndFramerateSupported);
+                Log.e("HBRecorderCodecInfo", "isSizeSupported @ Width = " + mWidth + " Height = " + mHeight + " -> " + hbRecorderCodecInfo.isSizeSupported(mWidth, mHeight, mMimeType));
+                Log.e("HBRecorderCodecInfo", "Default Video Format = " + hbRecorderCodecInfo.getDefaultVideoFormat());
+
+                HashMap<String, String> supportedVideoMimeTypes = hbRecorderCodecInfo.getSupportedVideoMimeTypes();
+                for (Map.Entry<String, String> entry : supportedVideoMimeTypes.entrySet()) {
+                    Log.e("HBRecorderCodecInfo", "Supported VIDEO encoders and mime types : " + entry.getKey() + " -> " + entry.getValue());
+                }
+
+                HashMap<String, String> supportedAudioMimeTypes = hbRecorderCodecInfo.getSupportedAudioMimeTypes();
+                for (Map.Entry<String, String> entry : supportedAudioMimeTypes.entrySet()) {
+                    Log.e("HBRecorderCodecInfo", "Supported AUDIO encoders and mime types : " + entry.getKey() + " -> " + entry.getValue());
+                }
+
+                ArrayList<String> supportedVideoFormats = hbRecorderCodecInfo.getSupportedVideoFormats();
+                for (int j = 0; j < supportedVideoFormats.size(); j++) {
+                    Log.e("HBRecorderCodecInfo", "Available Video Formats : " + supportedVideoFormats.get(j));
+                }
+            } else {
+                Log.e("HBRecorderCodecInfo", "MimeType not supported");
+            }
+
+        }
     }
 
     public void checkIfRecyclerViewIsEmpty() {
@@ -384,22 +462,24 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        for (int i = 0; i < list.length; i++) {
-            listString.add(list[i].getName());
-            String filepath = Environment.getExternalStorageDirectory() + "/Screen Recording/" + list[i].getName();
-            File file = new File(filepath);
-            long length = file.length();
-            if (length < 1024) {
-                file1 = new File(Environment.getExternalStorageDirectory() + "/Screen Recording/" + list[i].getName());
-                file1.delete();
-            } else {
-                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-                retriever.setDataSource(getApplicationContext(), Uri.parse(Environment.getExternalStorageDirectory() + "/Screen Recording/" + list[i].getName()));
-                String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                aLong = Long.parseLong(time);
+        if (list != null) {
+            for (int i = 0; i < list.length; i++) {
+                listString.add(list[i].getName());
+                String filepath = Environment.getExternalStorageDirectory() + "/Screen Recording/" + list[i].getName();
+                File file = new File(filepath);
+                long length = file.length();
+                if (length < 1024) {
+                    file1 = new File(Environment.getExternalStorageDirectory() + "/Screen Recording/" + list[i].getName());
+                    file1.delete();
+                } else {
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    retriever.setDataSource(getApplicationContext(), Uri.parse(Environment.getExternalStorageDirectory() + "/Screen Recording/" + list[i].getName()));
+                    String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    aLong = Long.parseLong(time);
+                }
+                arraylist.add(new Item("Video.png", list[i].getName(), "" + timeFormat(aLong), "Size : " + fileSize(length)));
+                adapter1.notifyDataSetChanged();
             }
-            arraylist.add(new Item("Video.png", list[i].getName(), "" + timeFormat(aLong), "Size : " + fileSize(length)));
-            adapter1.notifyDataSetChanged();
         }
 
     }
@@ -439,7 +519,7 @@ public class MainActivity extends AppCompatActivity {
                 .addAction(new Action(
                         R.drawable.ic_close,
                         "Stop Recording",
-                        PendingIntent.getActivity(this, 0, yesIntent, PendingIntent.FLAG_UPDATE_CURRENT)));
+                        PendingIntent.getActivity(this, 0, yesIntent, PendingIntent.FLAG_MUTABLE)));
         notificationManager.notify(notificationId, mBuilder.build());
         //startActivity(new Intent(this, MainActivity.class));
     }
@@ -481,8 +561,36 @@ public class MainActivity extends AppCompatActivity {
                         crp);
             }
         } else {
-            initRecorder();
-            mediaProjection();
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                Log.d("screenRecDebug", "12");
+//                Intent intent = new Intent(this, RecorderService.class);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    startForegroundService(intent);
+//                } else {
+//                    startService(intent);
+//                }
+//
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        MediaProjectionManager projectionManager = (MediaProjectionManager)
+//                                getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+//
+//                        mMediaProjection = mProjectionManager.getMediaProjection(resultCode, data);
+//                    }
+//                }, 200);
+                if (hbRecorder.isBusyRecording()) {
+                    hbRecorder.stopScreenRecording();
+//                    startbtn.setText(R.string.start_recording);
+                }
+                else {
+                    startRecordingScreen();
+                }
+
+            } else {
+                initRecorder();
+                mediaProjection();
+            }
         }
     }
 
@@ -524,6 +632,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (sharedPref.loadTimerText() == 0) {
+            Log.d("screenRecDebug", sharedPref.loadTimerText() + " timer");
             mMediaProjectionCallback = new MediaProjectionCallback();
             mMediaProjection = mProjectionManager.getMediaProjection(resultCode, data);
             mMediaProjection.registerCallback(mMediaProjectionCallback, null);
@@ -532,7 +641,31 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mMediaProjectionCallback = new MediaProjectionCallback();
             mMediaProjection = mProjectionManager.getMediaProjection(resultCode, data);
+
+
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void startRecordingScreen() {
+        quickSettings();
+        MediaProjectionManager mediaProjectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+        Intent permissionIntent = mediaProjectionManager != null ? mediaProjectionManager.createScreenCaptureIntent() : null;
+        startActivityForResult(permissionIntent, SCREEN_RECORD_REQUEST_CODE);
+    }
+
+    //Get/Set the selected settings
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void quickSettings() {
+        hbRecorder.setAudioBitrate(128000);
+        hbRecorder.setAudioSamplingRate(44100);
+        hbRecorder.recordHDVideo(wasHDSelected);
+        hbRecorder.isAudioEnabled(isAudioEnabled);
+        //Customise Notification
+        hbRecorder.setNotificationSmallIcon(R.drawable.icon);
+        //hbRecorder.setNotificationSmallIconVector(R.drawable.ic_baseline_videocam_24);
+        hbRecorder.setNotificationTitle(getString(R.string.stop_recording_notification_title));
+        hbRecorder.setNotificationDescription(getString(R.string.stop_recording_notification_message));
     }
 
     public void activityStart() {
@@ -685,13 +818,13 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(myIntent);
                 return true;
             case R.id.Rate_us:
-                Uri uri = Uri.parse(Constant.Rate_us_Link+ SplashScreen.PackageName);
-                Intent i=new Intent(Intent.ACTION_VIEW,uri);
+                Uri uri = Uri.parse(Constant.Rate_us_Link + SplashScreen.PackageName);
+                Intent i = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(i);
                 return true;
             case R.id.Privacy_Policy:
                 Uri uri1 = Uri.parse(Constant.Policy_Link);
-                Intent a=new Intent(Intent.ACTION_VIEW,uri1);
+                Intent a = new Intent(Intent.ACTION_VIEW, uri1);
                 startActivity(a);
                 return true;
             case R.id.AppInfo:
@@ -699,7 +832,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.More_Apps:
                 Uri uri2 = Uri.parse(Constant.More_Apps_Link);
-                Intent b=new Intent(Intent.ACTION_VIEW,uri2);
+                Intent b = new Intent(Intent.ACTION_VIEW, uri2);
                 startActivity(b);
                 return true;
 
@@ -803,6 +936,85 @@ public class MainActivity extends AppCompatActivity {
         mSensorManager.unregisterListener(mShakeDetector);
     }
 
+    @Override
+    public void HBRecorderOnStart() {
+        Log.e("HBRecorder", "HBRecorderOnStart called");
+    }
+
+    @Override
+    public void HBRecorderOnComplete() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (hbRecorder.wasUriSet()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    updateGalleryUri();
+                } else {
+                    refreshGalleryFile();
+                }
+            } else {
+                refreshGalleryFile();
+            }
+        }
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void refreshGalleryFile() {
+        MediaScannerConnection.scanFile(this,
+                new String[]{hbRecorder.getFilePath()}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.i("ExternalStorage", "Scanned " + path + ":");
+                        Log.i("ExternalStorage", "-> uri=" + uri);
+                    }
+                });
+    }
+
+    //IT IS IMPORTANT TO SET THE FILE NAME THE SAME AS THE NAME YOU USE FOR TITLE AND DISPLAY_NAME
+    ContentResolver resolver;
+    ContentValues contentValues;
+    Uri mUri;
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setOutputPath() {
+        String filename = string;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            resolver = getContentResolver();
+            contentValues = new ContentValues();
+            contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, "/Screen Recording" + "/Screen Recording " + string + ".mp4");
+            contentValues.put(MediaStore.Video.Media.TITLE, filename);
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, filename);
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4");
+            mUri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues);
+            //FILE NAME SHOULD BE THE SAME
+            hbRecorder.setFileName(filename);
+            hbRecorder.setOutputUri(mUri);
+        } else {
+            createFolder();
+            hbRecorder.setOutputPath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES) + "/HBRecorder");
+        }
+    }
+
+    private void createFolder() {
+        File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "HBRecorder");
+        if (!f1.exists()) {
+            if (f1.mkdirs()) {
+                Log.i("Folder ", "created");
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private void updateGalleryUri() {
+        contentValues.clear();
+        contentValues.put(MediaStore.Video.Media.IS_PENDING, 0);
+        getContentResolver().update(mUri, contentValues, null, null);
+    }
+
+
+    @Override
+    public void HBRecorderOnError(int errorCode, String reason) {
+
+    }
 
 
     private class MediaProjectionCallback extends MediaProjection.Callback {
@@ -926,6 +1138,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mActionMode.finish();//Finish action mode after use
     }
+
     private void createMrecAd() {
         MRECAdview = new MaxAdView(Constant.MREC_ADD_KEY, MaxAdFormat.MREC, this);
         MRECAdview.setListener(new MaxAdViewAdListener() {
@@ -982,9 +1195,10 @@ public class MainActivity extends AppCompatActivity {
         MRECAdview.loadAd();
         MRECAdview.startAutoRefresh();
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        MyApplication.isFirstTime=true;
+        MyApplication.isFirstTime = true;
     }
 }
