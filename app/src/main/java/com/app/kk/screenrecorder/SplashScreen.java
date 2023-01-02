@@ -1,6 +1,5 @@
 package com.app.kk.screenrecorder;
 
-import static com.app.kk.screenrecorder.Activity.MyApplication.showAdIfReady;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,12 +21,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.app.kk.screenrecorder.Activity.Constant;
-import com.applovin.mediation.MaxAd;
-import com.applovin.mediation.MaxAdListener;
-import com.applovin.mediation.MaxError;
-import com.applovin.mediation.ads.MaxAppOpenAd;
-import com.applovin.sdk.AppLovinSdk;
+
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.FadingCircle;
@@ -74,7 +68,7 @@ public class SplashScreen extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                showAdIfReady();
+
                 startActivity(new Intent(SplashScreen.this, OnboardingScreenActivity.class));
                 finish();
             }

@@ -6,7 +6,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.IntentFilter;
 import android.content.res.Resources;
-import android.graphics.Color;
+
 import android.graphics.Point;
 import android.graphics.drawable.Animatable;
 import android.hardware.Sensor;
@@ -24,12 +24,10 @@ import androidx.annotation.RequiresApi;
 import com.app.kk.screenrecorder.App_info;
 import com.app.kk.screenrecorder.Recorder.RecorderService;
 import com.app.kk.screenrecorder.SplashScreen;
-import com.applovin.mediation.MaxAd;
-import com.applovin.mediation.MaxAdFormat;
-import com.applovin.mediation.MaxAdViewAdListener;
-import com.applovin.mediation.MaxError;
-import com.applovin.mediation.ads.MaxAdView;
-import com.applovin.sdk.AppLovinSdkUtils;
+
+
+import com.google.android.gms.ads.nativead.NativeAd;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -70,8 +68,11 @@ import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,6 +87,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import android.app.NotificationChannel;
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements HBRecorderListene
     private static final int crp = 10;
     //    private RecyclerView recyclerView;
     private EmptyRecyclerView recyclerView;
-    private MaxAdView MRECAdview;
+
     private FrameLayout layout;
 
     String string;
@@ -158,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements HBRecorderListene
     //    LinearLayout emptyView;
     LinearLayout emptyView;
 
+    NativeAd nativeAd;
 
     CustomAdapter adapter1;
     SharedPref sharedPref;
@@ -223,7 +226,6 @@ public class MainActivity extends AppCompatActivity implements HBRecorderListene
         setContentView(R.layout.activity_main);
 
 
-        createMrecAd();
 
         initHBRecorder();
 
@@ -326,6 +328,8 @@ public class MainActivity extends AppCompatActivity implements HBRecorderListene
         });
         implementRecyclerViewClickListeners();
     }
+
+
 
     private void initHBRecorder() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1139,66 +1143,11 @@ public class MainActivity extends AppCompatActivity implements HBRecorderListene
         mActionMode.finish();//Finish action mode after use
     }
 
-    private void createMrecAd() {
-        MRECAdview = new MaxAdView(Constant.MREC_ADD_KEY, MaxAdFormat.MREC, this);
-        MRECAdview.setListener(new MaxAdViewAdListener() {
-            @Override
-            public void onAdExpanded(MaxAd ad) {
 
-            }
-
-            @Override
-            public void onAdCollapsed(MaxAd ad) {
-
-            }
-
-            @Override
-            public void onAdLoaded(MaxAd ad) {
-                Log.d("onAdLoaded", "onAdLoaded: ");
-            }
-
-            @Override
-            public void onAdDisplayed(MaxAd ad) {
-                Log.d("onAdLoaded", "onAdDisplayed: ");
-            }
-
-            @Override
-            public void onAdHidden(MaxAd ad) {
-                Log.d("onAdLoaded", "onAdHidden: ");
-            }
-
-            @Override
-            public void onAdClicked(MaxAd ad) {
-                Log.d("onAdLoaded", "onAdClicked: ");
-            }
-
-            @Override
-            public void onAdLoadFailed(String adUnitId, MaxError error) {
-                Log.d("onAdLoaded", "onAdLoadFailed: ");
-            }
-
-            @Override
-            public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-
-                Log.d("onAdLoaded", "onAdDisplayFailed: ");
-            }
-        });
-
-        int width = AppLovinSdkUtils.dpToPx(this, 300);
-        int height = AppLovinSdkUtils.dpToPx(this, 250);
-        MRECAdview.setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
-
-        MRECAdview.setBackgroundColor(Color.WHITE);
-
-        FrameLayout layout = findViewById(R.id.mrec);
-        layout.addView(MRECAdview);
-        MRECAdview.loadAd();
-        MRECAdview.startAutoRefresh();
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        MyApplication.isFirstTime = true;
+
     }
 }

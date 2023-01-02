@@ -16,4 +16,6 @@
     <string name="get_chat_sticker_desc" translatable="false">We have very Nice Stickers</string>
     <string name="mrec" translatable="false">d30e9332da4dbc47</string>
 
+    <string name="ad_attribution">Ad</string>
+
 </resources>

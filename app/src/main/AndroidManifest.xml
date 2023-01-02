@@ -93,12 +93,10 @@
             android:name=".ScreenOnOffBackgroundService"
             android:enabled="true" />
 
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/app_id" />
-        <meta-data
-            android:name="applovin.sdk.key"
-            android:value="k6M5NTnJGpwkPtSKZe-eZAkAlOEfcw7nB1B-ayas5WK8Rl9Xprw89ufSwtGKOvMBVN-BGKx2za5dAW79ARe77H" />
+            android:value="ca-app-pub-3940256099942544~3347511713" />
     </application>
 
 </manifest>

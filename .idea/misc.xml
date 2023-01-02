@@ -58,6 +58,47 @@
         <entry key="..\:/Users/Backend Dev/AndroidStudioProjects/ScreenRecorder/ScreenRecorder/app/src/main/res/menu/item_popup_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Backend Dev/AndroidStudioProjects/ScreenRecorder/ScreenRecorder/app/src/main/res/menu/main_menu_toolbar.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Backend Dev/AndroidStudioProjects/ScreenRecorder/ScreenRecorder/app/src/main/res/mipmap-anydpi-v26/ic_launcher_logo.xml" value="0.1" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/drawable/avd_grid_to_list.xml" value="0.1" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/drawable/avd_list_to_grid.xml" value="0.1" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/drawable/btn1.xml" value="0.1485" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/drawable/custombtn.xml" value="0.1" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/drawable/ic_controls.xml" value="0.1485" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/drawable/radio_button.xml" value="0.1485" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/drawable/thumb.xml" value="0.1485" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/drawable/track.xml" value="0.1485" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/action_mode_bar.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/activity_app_info.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/activity_main.xml" value="0.14" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/activity_onboarding_screen.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/activity_settings.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/activity_settings_controls.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/activity_settings_quality.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/activity_settings_recording.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/activity_splash_screen.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/ad_halper.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_appbar_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_dialog_about.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_dialog_bitrate.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_dialog_countdown.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_dialog_delete.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_dialog_framerate.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_dialog_rating.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_dialog_rename.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_layout_grid.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_layout_grid2.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/custom_layout_list.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/layout_empty.xml" value="0.14" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/layout_empty2.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/layout_fav_button.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/layout_floating_control_preview.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/layout_floating_controls.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/layout_recyclerview.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/layout/progress_bar_dialog.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/menu/action_mode_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/menu/item_popup_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/app/src/main/res/menu/main_menu_toolbar.xml" value="0.25" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/nativetemplates/src/main/res/layout/gnt_medium_template_view.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/IT World/AndroidStudioProjects/ScreenRecorder/nativetemplates/src/main/res/layout/gnt_small_template_view.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

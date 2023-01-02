@@ -15,4 +15,11 @@ public class Constant {
     public static String Rewarded_Interstitial = "Rewarded Interstitial";
 
     public static String Max_ID = "k6M5NTnJGpwkPtSKZe-eZAkAlOEfcw7nB1B-ayas5WK8Rl9Xprw89ufSwtGKOvMBVN-BGKx2za5dAW79ARe77H";
+
+    //admob
+    public static String NativeAd = "ca-app-pub-3940256099942544/2247696110";
+    public static final String APP_OPEN_ID = "ca-app-pub-1330643489060165/9450389771";
+
+
+
 }

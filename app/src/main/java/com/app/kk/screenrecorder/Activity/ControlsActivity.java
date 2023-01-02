@@ -1,7 +1,10 @@
 package com.app.kk.screenrecorder.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,41 +19,34 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.kk.screenrecorder.OnboardingScreenActivity;
 import com.app.kk.screenrecorder.R;
 import com.app.kk.screenrecorder.ScreenOnOffBackgroundService;
 import com.app.kk.screenrecorder.ShakeSensor.ShakeService;
 import com.app.kk.screenrecorder.SharedPref;
-import com.applovin.mediation.MaxAd;
-import com.applovin.mediation.MaxAdFormat;
-import com.applovin.mediation.MaxAdViewAdListener;
-import com.applovin.mediation.MaxError;
-import com.applovin.mediation.ads.MaxAdView;
-import com.applovin.sdk.AppLovinSdk;
-import com.applovin.sdk.AppLovinSdkConfiguration;
-import com.applovin.sdk.AppLovinSdkUtils;
+import com.google.android.ads.nativetemplates.NativeTemplateStyle;
+import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdOptions;
 
-public class ControlsActivity extends AppCompatActivity implements MaxAdViewAdListener {
+
+public class ControlsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     public SwitchCompat s1, s2;
     LinearLayout shake, screen;
     SharedPref sharedPref;
     TextView s1Desc, s2Desc;
-    private MaxAdView MRECAdview;
-
+    TemplateView template;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_controls);
-        createMrecAd();
-        AppLovinSdk.getInstance(this).setMediationProvider("max");
-        AppLovinSdk.initializeSdk(this, new AppLovinSdk.SdkInitializationListener() {
-            @Override
-            public void onSdkInitialized(final AppLovinSdkConfiguration configuration) {
 
-            }
-        });
 
         toolbar = findViewById(R.id.toolbar2);
         toolbar.setTitle("Settings");
@@ -69,6 +65,34 @@ public class ControlsActivity extends AppCompatActivity implements MaxAdViewAdLi
         s2.setClickable(false);
 
         s2Desc = findViewById(R.id.s2Desc);
+        template = findViewById(R.id.my_template);
+        if (InternetConnection.checkConnection(this)) {
+            AdLoader adLoader = new AdLoader.Builder(this, Constant.NativeAd)
+                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                        @Override
+                        public void onNativeAdLoaded(NativeAd nativeAd) {
+                            NativeTemplateStyle styles = new
+                                    NativeTemplateStyle.Builder().build();
+
+                            template.setStyles(styles);
+                            template.setNativeAd(nativeAd);
+                        }
+                    })
+                    .withAdListener(new AdListener() {
+                        @Override
+                        public void onAdFailedToLoad(LoadAdError adError) {
+                        }
+                    })
+                    .withNativeAdOptions(new NativeAdOptions.Builder()
+
+                            .build())
+                    .build();
+
+        }else{
+            template.setVisibility(View.INVISIBLE);
+        }
+
+
 
         if (sharedPref.loadShakeState()) {
             s1.setChecked(true);
@@ -163,60 +187,26 @@ public class ControlsActivity extends AppCompatActivity implements MaxAdViewAdLi
 //        super.onPause();
 //        MyApplication.activityPaused();
 //    }
-private void createMrecAd() {
-    MRECAdview = new MaxAdView(getResources().getString(R.string.mrec), MaxAdFormat.MREC, this);
+public static class InternetConnection {
 
-    MRECAdview.setListener((MaxAdViewAdListener) this);
-    int width = AppLovinSdkUtils.dpToPx(this, 300);
-    int height = AppLovinSdkUtils.dpToPx(this, 250);
-    MRECAdview.setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
+    /**
+     * CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT
+     */
+    public static boolean checkConnection(Context context) {
+        final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-    MRECAdview.setBackgroundColor(Color.WHITE);
+        if (connMgr != null) {
+            NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
 
-    FrameLayout layout = findViewById(R.id.mrec);
-    layout.addView(MRECAdview);
-    MRECAdview.loadAd();
-    MRECAdview.startAutoRefresh();
+            if (activeNetworkInfo != null) { // connected to the internet
+                // connected to the mobile provider's data plan
+                if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                    // connected to wifi
+                    return true;
+                } else return activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+            }
+        }
+        return false;
+    }}
 
-}
-
-    @Override
-    public void onAdExpanded(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdCollapsed(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdLoaded(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdDisplayed(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdHidden(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdClicked(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdLoadFailed(String adUnitId, MaxError error) {
-
-    }
-
-    @Override
-    public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-
-    }
 }

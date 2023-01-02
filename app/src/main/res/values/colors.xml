@@ -9,7 +9,9 @@
     <color name="color1">#0091EA</color>
     <color name="color2">#0163DD</color>
     <color name="color3">#7B37FA</color>
-    <color name="yellow">#FFAA00</color>
+    <color name="yellow">#D8ECF5</color>
+
+    <color name="headings">#5AC7F8</color>
 
 
     <color name="favColor">#EC0000</color>

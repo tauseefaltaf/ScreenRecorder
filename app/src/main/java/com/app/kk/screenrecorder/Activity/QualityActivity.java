@@ -1,7 +1,10 @@
 package com.app.kk.screenrecorder.Activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,22 +25,22 @@ import android.widget.Toast;
 
 import com.app.kk.screenrecorder.R;
 import com.app.kk.screenrecorder.SharedPref;
-import com.applovin.mediation.MaxAd;
-import com.applovin.mediation.MaxAdFormat;
-import com.applovin.mediation.MaxAdViewAdListener;
-import com.applovin.mediation.MaxError;
-import com.applovin.mediation.ads.MaxAdView;
-import com.applovin.sdk.AppLovinSdk;
-import com.applovin.sdk.AppLovinSdkConfiguration;
-import com.applovin.sdk.AppLovinSdkUtils;
+import com.google.android.ads.nativetemplates.NativeTemplateStyle;
+import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdOptions;
+
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-public class QualityActivity extends AppCompatActivity implements MaxAdViewAdListener {
+public class QualityActivity extends AppCompatActivity  {
 
     private Toolbar toolbar;
-    private MaxAdView MRECAdview;
+
     final String KEY_SAVED_RADIO_BUTTON_INDEX = "SAVED_RADIO_BUTTON_INDEX";
     LinearLayout frate, bitRate;
     //    int nbits = nMbps * 1000000;
@@ -49,6 +52,8 @@ public class QualityActivity extends AppCompatActivity implements MaxAdViewAdLis
     TextView desc2;
     int checkIDVBR;
     private String fps = "25 FPS";
+
+    TemplateView template;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +71,35 @@ public class QualityActivity extends AppCompatActivity implements MaxAdViewAdLis
         frate = findViewById(R.id.fRate);
         bitRate = findViewById(R.id.bitRate);
         desc2 = findViewById(R.id.desc2);
-        createMrecAd();
-        AppLovinSdk.getInstance(this).setMediationProvider("max");
-        AppLovinSdk.initializeSdk(this, new AppLovinSdk.SdkInitializationListener() {
-            @Override
-            public void onSdkInitialized(final AppLovinSdkConfiguration configuration) {
 
-            }
-        });
+        template = findViewById(R.id.my_template);
+        if (InternetConnection.checkConnection(this)) {
+            AdLoader adLoader = new AdLoader.Builder(this, Constant.NativeAd)
+                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                        @Override
+                        public void onNativeAdLoaded(NativeAd nativeAd) {
+                            NativeTemplateStyle styles = new
+                                    NativeTemplateStyle.Builder().build();
+
+                            template.setStyles(styles);
+                            template.setNativeAd(nativeAd);
+                        }
+                    })
+                    .withAdListener(new AdListener() {
+                        @Override
+                        public void onAdFailedToLoad(LoadAdError adError) {
+                        }
+                    })
+                    .withNativeAdOptions(new NativeAdOptions.Builder()
+
+                            .build())
+                    .build();
+
+        }else{
+            template.setVisibility(View.INVISIBLE);
+        }
+
+
 
         frate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,62 +262,7 @@ public class QualityActivity extends AppCompatActivity implements MaxAdViewAdLis
         super.finish();
         overridePendingTransition(0, 0);
     }
-    private void createMrecAd() {
-        MRECAdview = new MaxAdView(getResources().getString(R.string.mrec), MaxAdFormat.MREC, this);
 
-        MRECAdview.setListener(this);
-        int width = AppLovinSdkUtils.dpToPx(this, 300);
-        int height = AppLovinSdkUtils.dpToPx(this, 250);
-        MRECAdview.setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
-
-        MRECAdview.setBackgroundColor(Color.WHITE);
-
-        FrameLayout layout = findViewById(R.id.mrec);
-        layout.addView(MRECAdview);
-        MRECAdview.loadAd();
-        MRECAdview.startAutoRefresh();
-
-    }
-
-    @Override
-    public void onAdExpanded(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdCollapsed(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdLoaded(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdDisplayed(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdHidden(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdClicked(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdLoadFailed(String adUnitId, MaxError error) {
-
-    }
-
-    @Override
-    public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-
-    }
 
 //    @Override
 //    protected void onResume() {
@@ -304,4 +275,25 @@ public class QualityActivity extends AppCompatActivity implements MaxAdViewAdLis
 //        super.onPause();
 //        MyApplication.activityPaused();
 //    }
+public static class InternetConnection {
+
+    /**
+     * CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT
+     */
+    public static boolean checkConnection(Context context) {
+        final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connMgr != null) {
+            NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
+
+            if (activeNetworkInfo != null) { // connected to the internet
+                // connected to the mobile provider's data plan
+                if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                    // connected to wifi
+                    return true;
+                } else return activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+            }
+        }
+        return false;
+    }}
 }

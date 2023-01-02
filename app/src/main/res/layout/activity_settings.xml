@@ -14,7 +14,7 @@
 
 
 
-    <LinearLayout
+    <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -118,15 +118,21 @@
             android:background="@color/grey2" />
 
 
-        <FrameLayout
-            android:id="@+id/mrec"
+        <LinearLayout
+            android:id="@+id/adsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="18dp" />
+            android:layout_alignParentBottom="true">
+
+            <com.google.android.ads.nativetemplates.TemplateView
+                android:id="@+id/my_template"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:gnt_template_type="@layout/gnt_medium_template_view" />
+        </LinearLayout>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>

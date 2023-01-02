@@ -1,5 +1,6 @@
 package com.app.kk.screenrecorder.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ThumbnailUtils;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -33,12 +36,15 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.kk.screenrecorder.Activity.Constant;
 import com.app.kk.screenrecorder.Dialog.DeleteDialog;
 import com.app.kk.screenrecorder.Model.Item;
 import com.app.kk.screenrecorder.R;
-import com.applovin.mediation.MaxAdFormat;
-import com.applovin.mediation.ads.MaxAdView;
-import com.applovin.sdk.AppLovinSdkUtils;
+
+import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.nativead.NativeAd;
 
 import java.io.File;
 import java.util.List;
@@ -95,7 +101,34 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Viewholder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final Viewholder viewholder, final int position) {
+    public void onBindViewHolder(@NonNull final Viewholder viewholder, @SuppressLint("RecyclerView") int position) {
+
+        if (position % 3 == 0) {
+
+            if (InternetConnection.checkConnection(context)) {
+
+
+                    AdLoader.Builder builder = new AdLoader.Builder(
+                            context, Constant.NativeAd);
+
+                    builder.forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                        @Override
+                        public void onNativeAdLoaded(NativeAd nativeAd) {
+                            viewholder.templateView.setNativeAd(nativeAd);
+                        }
+                    });
+
+                    final AdLoader adLoader = builder.build();
+                    adLoader.loadAd(new AdRequest.Builder().build());
+
+                viewholder.templateView.setVisibility(View.VISIBLE);
+
+
+
+            } else {
+                viewholder.templateView.setVisibility(View.GONE);
+            }
+        }
         String image = arraylist.get(position).getVidImage();
         String title = arraylist.get(position).getVidTitle();
         String duration = arraylist.get(position).getVidDuration();
@@ -176,7 +209,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Viewholder
         private TextView size;
         private ImageView vidImage;
         private LinearLayout lc1;
-
+        TemplateView templateView;
 
         public Viewholder(@NonNull View itemView, int i) {
             super(itemView);
@@ -186,7 +219,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Viewholder
             duration = itemView.findViewById(R.id.vidDuration);
             size = itemView.findViewById(R.id.vidSize);
             menuBtn = (ImageView) itemView.findViewById(R.id.itemMenu);
-
+            templateView = (TemplateView) itemView.findViewById(R.id.nativeAds);
         }
 
 
@@ -322,6 +355,29 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Viewholder
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, listString.get(position));
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         context.startActivity(Intent.createChooser(shareIntent, "Share with"));
+    }
+
+    public static class InternetConnection {
+
+        /**
+         * CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT
+         */
+        public static boolean checkConnection(Context context) {
+            final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            if (connMgr != null) {
+                NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
+
+                if (activeNetworkInfo != null) { // connected to the internet
+                    // connected to the mobile provider's data plan
+                    if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                        // connected to wifi
+                        return true;
+                    } else return activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+                }
+            }
+            return false;
+        }
     }
 
 }

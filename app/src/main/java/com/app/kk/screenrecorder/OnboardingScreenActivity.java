@@ -4,80 +4,114 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
+
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 
 import com.app.kk.screenrecorder.Activity.Constant;
 import com.app.kk.screenrecorder.Activity.MainActivity;
 import com.app.kk.screenrecorder.Activity.MyApplication;
-import com.applovin.mediation.MaxAd;
-import com.applovin.mediation.MaxAdFormat;
-import com.applovin.mediation.MaxAdViewAdListener;
-import com.applovin.mediation.MaxError;
-import com.applovin.mediation.ads.MaxAdView;
-import com.applovin.sdk.AppLovinSdk;
-import com.applovin.sdk.AppLovinSdkConfiguration;
-import com.applovin.sdk.AppLovinSdkUtils;
+import com.google.android.ads.nativetemplates.NativeTemplateStyle;
+import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.nativead.MediaView;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdOptions;
+import com.google.android.gms.ads.nativead.NativeAdView;
 
-public class OnboardingScreenActivity extends AppCompatActivity{
+import java.util.Objects;
+
+
+public class OnboardingScreenActivity extends AppCompatActivity  {
     ImageView imageView;
-    TextView heading, description;
+    TextView description,heading;
+    LinearLayout adsLayout;
     int currentPosition = 1;
     Button next_button;
-    private MaxAdView MRECAdview;
+    TemplateView template;
+    NativeAd nativeAd;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding_screen);
-        Window window = this.getWindow();
 
-
+        Window window = OnboardingScreenActivity.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-
         window.setStatusBarColor(ContextCompat.getColor(OnboardingScreenActivity.this, R.color.yellow));
-        AppLovinSdk.getInstance(this).setMediationProvider("max");
 
-        AppLovinSdk.initializeSdk(this, new AppLovinSdk.SdkInitializationListener() {
-            @Override
-            public void onSdkInitialized(final AppLovinSdkConfiguration configuration) {
+        template = findViewById(R.id.my_template);
 
-            }
-        });
-
+        adsLayout = findViewById(R.id.adsLayout);
         imageView = findViewById(R.id.imageView);
-        heading = findViewById(R.id.title_text);
         description = findViewById(R.id.slider_desc);
-        createMrecAd();
+        next_button = findViewById(R.id.next_button);
+
+        heading = findViewById(R.id.title_text);
+        if (InternetConnection.checkConnection(this)) {
+            AdLoader adLoader = new AdLoader.Builder(OnboardingScreenActivity.this, Constant.NativeAd)
+                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                        @Override
+                        public void onNativeAdLoaded(NativeAd nativeAd) {
+                            NativeTemplateStyle styles = new
+                                    NativeTemplateStyle.Builder().build();
+
+                            template.setStyles(styles);
+                            template.setNativeAd(nativeAd);
+                        }
+                    })
+                    .withAdListener(new AdListener() {
+                        @Override
+                        public void onAdFailedToLoad(LoadAdError adError) {
+                        }
+                    })
+                    .withNativeAdOptions(new NativeAdOptions.Builder()
+
+                            .build())
+                    .build();
+
+        }else{
+            template.setVisibility(View.INVISIBLE);
+        }
+
+
+
 
 
         if (currentPosition == 1) {
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.rec_add));
-            heading.setText("Screen Recorder");
             description.setText("Record Your Screen On One Tab");
             currentPosition++;
 
         }
 
-        next_button = findViewById(R.id.next_button);
 
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,95 +119,43 @@ public class OnboardingScreenActivity extends AppCompatActivity{
                 if (currentPosition == 2) {
                     imageView.setImageDrawable(getResources().getDrawable(R.drawable.recording_add));
                     heading.setText("Screen Recorder Unlimited");
-                    description.setText("Screen recorder with internal audio.Record video game & screen without lag.");
+                    description.setText("Screen recorder with audio, You can record games too.");
                     next_button.setText("Finish");
                     next_button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
                             startActivity(new Intent(OnboardingScreenActivity.this, MainActivity.class));
                             finish();
                         }
                     });
                 }
-                //     currentPosition++;
-
-//                } else if (currentPosition == 3) {
-//                    imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher_background));
-//                    heading.setText("Scan Image Qr Code");
-//                    description.setText("You can select the image from gallery and scan qr code from it");
-//                    next_button.setText("Finish");
-//                    next_button.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            startActivity(new Intent(OnboardingScreenActivity.this, Level.class));
-//                            finish();
-//                        }
-//                    });
-//                }
-            }
-        });
-    }
-    private void createMrecAd() {
-        MRECAdview = new MaxAdView(Constant.MREC_ADD_KEY, MaxAdFormat.MREC, this);
-        MRECAdview.setListener(new MaxAdViewAdListener() {
-            @Override
-            public void onAdExpanded(MaxAd ad) {
-
-            }
-
-            @Override
-            public void onAdCollapsed(MaxAd ad) {
-
-            }
-
-            @Override
-            public void onAdLoaded(MaxAd ad) {
-                Log.d("onAdLoaded", "onAdLoaded: ");
-            }
-
-            @Override
-            public void onAdDisplayed(MaxAd ad) {
-                Log.d("onAdLoaded", "onAdDisplayed: ");
-            }
-
-            @Override
-            public void onAdHidden(MaxAd ad) {
-                Log.d("onAdLoaded", "onAdHidden: ");
-            }
-
-            @Override
-            public void onAdClicked(MaxAd ad) {
-                Log.d("onAdLoaded", "onAdClicked: ");
-            }
-
-            @Override
-            public void onAdLoadFailed(String adUnitId, MaxError error) {
-                Log.d("onAdLoaded", "onAdLoadFailed: ");
-            }
-
-            @Override
-            public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-
-                Log.d("onAdLoaded", "onAdDisplayFailed: ");
             }
         });
 
-        int width = AppLovinSdkUtils.dpToPx(this, 300);
-        int height = AppLovinSdkUtils.dpToPx(this, 250);
-        MRECAdview.setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
 
-        MRECAdview.setBackgroundColor(Color.WHITE);
-
-        FrameLayout layout = findViewById(R.id.mrec);
-        layout.addView(MRECAdview);
-        MRECAdview.loadAd();
-        MRECAdview.startAutoRefresh();
     }
+    public static class InternetConnection {
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        MyApplication.isFirstTime=true;
-    }
+        /**
+         * CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT
+         */
+        public static boolean checkConnection(Context context) {
+            final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            if (connMgr != null) {
+                NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
+
+                if (activeNetworkInfo != null) { // connected to the internet
+                    // connected to the mobile provider's data plan
+                    if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                        // connected to wifi
+                        return true;
+                    } else return activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+                }
+            }
+            return false;
+        }}
+
+
+
 }

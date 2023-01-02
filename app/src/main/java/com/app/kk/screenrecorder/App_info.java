@@ -4,7 +4,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -16,18 +19,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.app.kk.screenrecorder.Activity.Constant;
-import com.applovin.mediation.MaxAd;
-import com.applovin.mediation.MaxAdFormat;
-import com.applovin.mediation.MaxAdViewAdListener;
-import com.applovin.mediation.MaxError;
-import com.applovin.mediation.ads.MaxAdView;
-import com.applovin.sdk.AppLovinSdk;
-import com.applovin.sdk.AppLovinSdkConfiguration;
-import com.applovin.sdk.AppLovinSdkUtils;
+import com.google.android.ads.nativetemplates.NativeTemplateStyle;
+import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdOptions;
 
-public class App_info extends AppCompatActivity implements MaxAdViewAdListener {
 
-    private MaxAdView MRECAdview;
+public class App_info extends AppCompatActivity  {
+
+TemplateView template;
     private FrameLayout layout;
     private ImageView icBack;
 
@@ -37,17 +40,10 @@ public class App_info extends AppCompatActivity implements MaxAdViewAdListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_info);
-        AppLovinSdk.getInstance(this).setMediationProvider("max");
-        AppLovinSdk.initializeSdk(this, new AppLovinSdk.SdkInitializationListener() {
-            @Override
-            public void onSdkInitialized(final AppLovinSdkConfiguration configuration) {
-                createBannerAd();
-            }
-        });
 
 
 
-
+        template = findViewById(R.id.my_template);
         layout=findViewById(R.id.mrec);
         icBack=findViewById(R.id.icBack);
         icBack.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +52,7 @@ public class App_info extends AppCompatActivity implements MaxAdViewAdListener {
                 finish();
             }
         });
-        createMrecAd();
+
 //        getSupportActionBar().hide();
         Window window = this.getWindow();
 
@@ -69,118 +65,57 @@ public class App_info extends AppCompatActivity implements MaxAdViewAdListener {
 
         window.setStatusBarColor(ContextCompat.getColor(App_info.this, R.color.white));
 
+        if (OnboardingScreenActivity.InternetConnection.checkConnection(this)) {
+            AdLoader adLoader = new AdLoader.Builder(this, Constant.NativeAd)
+                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                        @Override
+                        public void onNativeAdLoaded(NativeAd nativeAd) {
+                            NativeTemplateStyle styles = new
+                                    NativeTemplateStyle.Builder().build();
 
-    }
-    private void createMrecAd() {
-        MRECAdview = new MaxAdView(getResources().getString(R.string.mrec), MaxAdFormat.MREC, this);
+                            template.setStyles(styles);
+                            template.setNativeAd(nativeAd);
+                        }
+                    })
+                    .withAdListener(new AdListener() {
+                        @Override
+                        public void onAdFailedToLoad(LoadAdError adError) {
+                        }
+                    })
+                    .withNativeAdOptions(new NativeAdOptions.Builder()
 
-        MRECAdview.setListener(this);
-        int width = AppLovinSdkUtils.dpToPx(this, 300);
-        int height = AppLovinSdkUtils.dpToPx(this, 250);
-        MRECAdview.setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
+                            .build())
+                    .build();
 
-        MRECAdview.setBackgroundColor(Color.WHITE);
+        }else{
+            template.setVisibility(View.INVISIBLE);
+        }
 
-
-        layout.addView(MRECAdview);
-        MRECAdview.loadAd();
-        MRECAdview.startAutoRefresh();
-
-    }
-
-    @Override
-    public void onAdExpanded(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdCollapsed(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdLoaded(MaxAd ad) {
 
     }
 
-    @Override
-    public void onAdDisplayed(MaxAd ad) {
+    public static class InternetConnection {
 
-    }
+        /**
+         * CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT
+         */
+        public static boolean checkConnection(Context context) {
+            final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-    @Override
-    public void onAdHidden(MaxAd ad) {
+            if (connMgr != null) {
+                NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
 
-    }
-
-    @Override
-    public void onAdClicked(MaxAd ad) {
-
-    }
-
-    @Override
-    public void onAdLoadFailed(String adUnitId, MaxError error) {
-
-    }
-
-    @Override
-    public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-
-    }
-    private void createBannerAd() {
-        MRECAdview = new MaxAdView(Constant.Banner,this);
-        MRECAdview.setListener(new MaxAdViewAdListener() {
-            @Override
-            public void onAdExpanded(MaxAd ad) {
-
+                if (activeNetworkInfo != null) { // connected to the internet
+                    // connected to the mobile provider's data plan
+                    if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                        // connected to wifi
+                        return true;
+                    } else return activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+                }
             }
-
-            @Override
-            public void onAdCollapsed(MaxAd ad) {
-
-            }
-
-            @Override
-            public void onAdLoaded(MaxAd ad) {
-
-            }
-
-            @Override
-            public void onAdDisplayed(MaxAd ad) {
-
-            }
-
-            @Override
-            public void onAdHidden(MaxAd ad) {
-
-            }
-
-            @Override
-            public void onAdClicked(MaxAd ad) {
-
-            }
-
-            @Override
-            public void onAdLoadFailed(String adUnitId, MaxError error) {
-
-            }
-
-            @Override
-            public void onAdDisplayFailed(MaxAd ad, MaxError error) {
-
-            }
-        });
+            return false;
+        }}
 
 
 
-        int width = ViewGroup.LayoutParams.MATCH_PARENT;
-        int heightPx = getResources().getDimensionPixelSize( R.dimen.banner_height );
-        MRECAdview.setLayoutParams( new FrameLayout.LayoutParams( width, heightPx ) );
-        MRECAdview.setBackgroundColor(Color.WHITE);
-
-        FrameLayout rootView = findViewById(R.id.bannerAd);
-        rootView.addView( MRECAdview );
-
-        MRECAdview.loadAd();
-    }
 }

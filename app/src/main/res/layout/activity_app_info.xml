@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".App_info">
+
     <RelativeLayout
         android:id="@+id/linear1"
         android:layout_width="match_parent"
@@ -19,32 +20,32 @@
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_white" />
+            android:src="@drawable/ic_white"
+            />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
             android:layout_centerVertical="true"
             android:layout_marginVertical="5dp"
-            android:text="Bubble Level"
-            android:textColor="@color/white"
+            android:layout_marginLeft="70dp"
+            android:text="Screen Recorder"
+            android:textColor="@color/headings"
             android:textSize="28dp"
             android:textStyle="bold" />
 
     </RelativeLayout>
 
 
-        <FrameLayout
-            android:id="@+id/bannerAd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/linear1"
-            />
+    <FrameLayout
+        android:id="@+id/bannerAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear1" />
 
 
     <ImageView
@@ -54,7 +55,7 @@
         android:layout_below="@id/bannerAd"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo_new" />
 
 
     <TextView
@@ -65,7 +66,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="App info"
-        android:textColor="@color/yellow"
+        android:textColor="@color/headings"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -78,19 +79,22 @@
         android:gravity="center"
         android:padding="16dp"
         android:text="Put any side (including the back) of your Android device on a flat horizontal surface and press the Calibrate button.Or reset the calibration for all the phone sides."
-        android:textColor="@color/yellow"
+        android:textColor="@color/headings"
         android:textSize="20dp" />
 
-    <FrameLayout
-        android:id="@+id/mrec"
+    <LinearLayout
+        android:id="@+id/adsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView3"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        android:layout_alignParentBottom="true">
+
+        <com.google.android.ads.nativetemplates.TemplateView
+            android:id="@+id/my_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:gnt_template_type="@layout/gnt_medium_template_view" />
 
 
-
+    </LinearLayout>
 
 </RelativeLayout>

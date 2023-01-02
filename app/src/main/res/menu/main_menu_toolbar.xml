@@ -8,7 +8,8 @@
         android:icon="@drawable/avd_list_to_grid"
         android:orderInCategory="100"
         android:title="Change Layout"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:visible="false"/>
     <item
         android:id="@+id/share"
         android:icon="@drawable/ic_share_black_24dp"

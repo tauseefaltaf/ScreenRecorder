@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Screen Recording"
-        android:textColor="@color/black"
+        android:textColor="@color/headings"
         android:textSize="40dp"
         android:layout_marginHorizontal="20dp"
         android:textStyle="bold"
@@ -23,7 +23,7 @@
         android:id="@+id/img"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/logo"/>
+        android:src="@drawable/logo_new"/>
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/spin_kit"
         style="@style/SpinKitView.FadingCircle"
@@ -31,6 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        app:SpinKit_Color="@color/black" />
+        app:SpinKit_Color="@color/headings" />
 
 </LinearLayout>

@@ -5,13 +5,13 @@
             <solid android:color="#FFFFFF" />
             <corners android:radius="15dp" />
             <size android:width="25dp" android:height="25dp" />
-            <stroke android:width="4dp" android:color="@color/yellow" />
+            <stroke android:width="4dp" android:color="@color/headings" />
         </shape>
     </item>
 
     <item android:state_checked="false">
         <shape android:dither="true" android:shape="rectangle" android:useLevel="false" android:visible="true">
-            <solid android:color="@color/yellow" />
+            <solid android:color="@color/headings" />
             <corners android:radius="15dp" />
             <size android:width="25dp" android:height="25dp" />
             <stroke android:width="4dp" android:color="@color/grey" />

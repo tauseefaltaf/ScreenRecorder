@@ -29,7 +29,7 @@
                     android:layout_margin="5dp"
                     android:text="Countdown"
                     android:textSize="22dp"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/headings"
                     android:textStyle="bold" />
 
                 <TextView
@@ -52,8 +52,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:progressTint="@color/yellow"
-                    android:thumbTint="@color/yellow" />
+                    android:progressTint="@color/headings"
+                    android:thumbTint="@color/headings" />
 
                 <TextView
                     android:id="@+id/timertxt"
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Cancel"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/headings"
                     android:textSize="15dp" />
 
                 <Button
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Apply"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/headings"
                     android:textSize="15dp" />
 
 

@@ -20,10 +20,10 @@
 
         android:elevation="2dp"
         android:focusable="true"
-        android:src="@drawable/logo"
+        android:src="@drawable/logo_new"
 
         android:visibility="visible"
-        app:backgroundTint="@color/yellow"
+        app:backgroundTint="@color/headings"
         app:elevation="3dp"
         app:fabSize="auto"
         app:rippleColor="@android:color/transparent"
