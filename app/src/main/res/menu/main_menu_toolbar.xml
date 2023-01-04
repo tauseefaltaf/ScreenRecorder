@@ -33,7 +33,8 @@
         android:title="Settings"/>
     <item
         android:id="@+id/More_Apps"
-        android:title="More Apps" />
+        android:title="More Apps"
+        android:visible="false"/>
 
 
 
